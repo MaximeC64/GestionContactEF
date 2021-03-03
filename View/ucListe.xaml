@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="GestionContactsEF.View.ucListe"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ListBox ItemsSource="{Binding ListeContacts}" IsSynchronizedWithCurrentItem="True">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding PrenomNom}" />
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+</UserControl>

@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="Persons" EntityType="Model1.Store.Persons" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Persons_Client" EntityType="Model1.Store.Persons_Client" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Persons_Brother" EntityType="Model1.Store.Persons_Brother" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Client_inherits_Person" Association="Model1.Store.FK_Client_inherits_Person">
+      <End Role="Person" EntitySet="Persons" />
+      <End Role="Client" EntitySet="Persons_Client" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Brother_inherits_Person" Association="Model1.Store.FK_Brother_inherits_Person">
+      <End Role="Person" EntitySet="Persons" />
+      <End Role="Brother" EntitySet="Persons_Brother" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Persons">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Prenom" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Adresse" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Ville" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Codepostal" Type="nvarchar" Nullable="true" MaxLength="24" />
+    <Property Name="Email" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Telephone" Type="nvarchar" Nullable="true" MaxLength="24" />
+  </EntityType>
+  <EntityType Name="Persons_Client">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="RefClient" Type="nvarchar" Nullable="true" MaxLength="24" />
+    <Property Name="Societe" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Persons_Brother">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Poste" Type="nvarchar" Nullable="true" MaxLength="24" />
+    <Property Name="Fonction" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Client_inherits_Person">
+    <End Role="Person" Type="Model1.Store.Persons" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Client" Type="Model1.Store.Persons_Client" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Client">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Brother_inherits_Person">
+    <End Role="Person" Type="Model1.Store.Persons" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Brother" Type="Model1.Store.Persons_Brother" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Brother">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ContactsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Persons" EntityType="Model1.Person" />
+        </EntityContainer>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" Nullable="false" FixedLength="false" MaxLength="80" />
+          <Property Name="Prenom" Type="String" Nullable="false" FixedLength="false" MaxLength="80" />
+          <Property Name="Adresse" Type="String" FixedLength="false" MaxLength="80" Nullable="true" />
+          <Property Name="Ville" Type="String" FixedLength="false" MaxLength="80" Nullable="true" />
+          <Property Name="Codepostal" Type="String" Nullable="true" FixedLength="false" MaxLength="24" />
+          <Property Name="Email" Type="String" Nullable="true" FixedLength="false" MaxLength="80" />
+          <Property Name="Telephone" Type="String" Nullable="true" FixedLength="false" MaxLength="24" />
+        </EntityType>
+        <EntityType Name="Client" BaseType="Model1.Person" >
+          <Property Name="RefClient" Type="String" Nullable="true" FixedLength="false" MaxLength="24" />
+          <Property Name="Societe" Type="String" Nullable="true" FixedLength="false" MaxLength="80" />
+        </EntityType>
+        <EntityType Name="Brother" BaseType="Model1.Person" >
+          <Property Name="Poste" Type="String" Nullable="true" FixedLength="false" MaxLength="24" />
+          <Property Name="Fonction" Type="String" Nullable="true" FixedLength="false" MaxLength="80" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="ContactsEntities">
+    <EntitySetMapping Name="Persons">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Person)">
+        <MappingFragment StoreEntitySet="Persons">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+          <ScalarProperty Name="Adresse" ColumnName="Adresse" />
+          <ScalarProperty Name="Ville" ColumnName="Ville" />
+          <ScalarProperty Name="Codepostal" ColumnName="Codepostal" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Client)">
+        <MappingFragment StoreEntitySet="Persons_Client">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RefClient" ColumnName="RefClient" />
+          <ScalarProperty Name="Societe" ColumnName="Societe" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Brother)">
+        <MappingFragment StoreEntitySet="Persons_Brother">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Poste" ColumnName="Poste" />
+          <ScalarProperty Name="Fonction" ColumnName="Fonction" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
